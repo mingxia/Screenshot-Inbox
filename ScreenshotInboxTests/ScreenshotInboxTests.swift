@@ -55,4 +55,65 @@ final class ScreenshotInboxTests: XCTestCase {
             XCTAssertFalse(ScreenshotFolderWatcher.supports(URL(fileURLWithPath: name)))
         }
     }
+
+    func testNativeScreenshotMetadataIsStrongEvidence() {
+        let result = candidateClassifier.classify(signals(
+            nameMatches: false, screenshotMetadata: true, internetOrigin: false, isPNG: true
+        ), observedAt: now)
+        XCTAssertTrue(result.isLikelyScreenshot)
+        XCTAssertTrue(result.reasons.contains(.screenshotMetadata))
+    }
+
+    func testBrowserDownloadPNGIsIgnoredEvenWhenRecentAndNamedLikeScreenshot() {
+        let result = candidateClassifier.classify(signals(
+            nameMatches: true, screenshotMetadata: false, internetOrigin: true, isPNG: true
+        ), observedAt: now)
+        XCTAssertFalse(result.isLikelyScreenshot)
+        XCTAssertTrue(result.reasons.contains(.browserDownloadOrigin))
+    }
+
+    func testCopiedJPGIsIgnored() {
+        let result = candidateClassifier.classify(signals(
+            nameMatches: false, screenshotMetadata: false, internetOrigin: false, isPNG: false
+        ), observedAt: now)
+        XCTAssertFalse(result.isLikelyScreenshot)
+    }
+
+    func testLocalizedScreenshotFilenameIsRecognizedWithoutEnglishPrefix() {
+        XCTAssertTrue(ScreenshotCandidateClassifier.matchesDefaultScreenshotFilename("截屏 2026-09-25 10.32.18"))
+        let result = candidateClassifier.classify(signals(
+            nameMatches: true, screenshotMetadata: false, internetOrigin: false, isPNG: true
+        ), observedAt: now)
+        XCTAssertTrue(result.isLikelyScreenshot)
+    }
+
+    func testFilenameAloneIsNotEnough() {
+        var candidate = signals(nameMatches: true, screenshotMetadata: false, internetOrigin: false, isPNG: true)
+        candidate = ScreenshotCandidateSignals(
+            creationDate: now.addingTimeInterval(-120),
+            hasScreenshotMetadata: candidate.hasScreenshotMetadata,
+            hasInternetOrigin: candidate.hasInternetOrigin,
+            filenameMatchesScreenshotPattern: candidate.filenameMatchesScreenshotPattern,
+            isPNG: candidate.isPNG
+        )
+        XCTAssertFalse(candidateClassifier.classify(candidate, observedAt: now).isLikelyScreenshot)
+    }
+
+    private var candidateClassifier: ScreenshotCandidateClassifier { ScreenshotCandidateClassifier() }
+    private var now: Date { Date(timeIntervalSince1970: 1_000) }
+
+    private func signals(
+        nameMatches: Bool,
+        screenshotMetadata: Bool,
+        internetOrigin: Bool,
+        isPNG: Bool
+    ) -> ScreenshotCandidateSignals {
+        ScreenshotCandidateSignals(
+            creationDate: now,
+            hasScreenshotMetadata: screenshotMetadata,
+            hasInternetOrigin: internetOrigin,
+            filenameMatchesScreenshotPattern: nameMatches,
+            isPNG: isPNG
+        )
+    }
 }

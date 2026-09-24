@@ -18,6 +18,12 @@ The screenshot directory service will resolve the configured directory and retai
 
 Changing the configured directory will stop the existing watcher before a new watcher starts. Existing files will not be imported by default.
 
+### Candidate classification (Phase 5A)
+
+Stable image files pass through `ScreenshotCandidateClassifier` before any database write. The classifier combines independent evidence and uses a conservative threshold: native screenshot metadata is strongest, the localized default filename's date/time shape and creation recency are supporting signals, and PNG is only weak evidence. A `kMDItemWhereFroms` extended attribute is treated as strong contrary evidence so a recent browser download is ignored. Filename alone never reaches the threshold.
+
+The metadata probes were selected from attributes observable on native macOS files: Spotlight's `kMDItemIsScreenCapture`, the corresponding `com.apple.metadata:kMDItemIsScreenCapture` extended attribute, and an ImageIO TIFF `Software` value that explicitly names `screencapture`/`screenshot`. There is no universal ImageIO screenshot flag, metadata availability varies by macOS version and filesystem, and copied/exported files can lose extended attributes; these signals are therefore combined rather than assumed. `kMDItemWhereFroms` reliably identifies many browser downloads but is not guaranteed for every browser. Candidate paths and metadata contents are not logged in release builds.
+
 ## Vision pipeline (Phase 4–5)
 
 Analysis will run away from the main actor. OCR and barcode requests will be independent enhancements: either may fail without preventing the preliminary screenshot record from appearing in the inbox. URL extraction will combine `NSDataDetector`, URL validation, and a conservative fallback for domain-like text. Analysis results will be persisted before the UI and floating card are updated.

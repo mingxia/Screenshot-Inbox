@@ -4,15 +4,29 @@ import Foundation
 actor ScreenshotImporter {
     private let repository: ScreenshotRepository
     private let thumbnails: ThumbnailService
+    private let candidateClassifier: ScreenshotCandidateClassifier
 
-    init(repository: ScreenshotRepository, thumbnails: ThumbnailService) {
+    init(
+        repository: ScreenshotRepository,
+        thumbnails: ThumbnailService,
+        candidateClassifier: ScreenshotCandidateClassifier = ScreenshotCandidateClassifier()
+    ) {
         self.repository = repository
         self.thumbnails = thumbnails
+        self.candidateClassifier = candidateClassifier
     }
 
     func importScreenshot(at url: URL) async throws -> ScreenshotItem? {
         let values = try url.resourceValues(forKeys: [.creationDateKey, .fileSizeKey, .isRegularFileKey])
         guard values.isRegularFile == true, ScreenshotFolderWatcher.supports(url) else { return nil }
+        let candidateResult = candidateClassifier.classify(CandidateFile(url: url, observedAt: Date()))
+        guard candidateResult.isLikelyScreenshot else {
+#if DEBUG
+            let reasons = candidateResult.reasons.map(\.rawValue).joined(separator: ",")
+            AppLogger.import.debug("Ignored image candidate (confidence: \(candidateResult.confidence), reasons: \(reasons, privacy: .public))")
+#endif
+            return nil
+        }
         guard let image = NSImage(contentsOf: url), let representation = image.representations.first else { return nil }
         let item = ScreenshotItem(
             id: UUID(), fileURL: url.standardizedFileURL, filename: url.lastPathComponent,
