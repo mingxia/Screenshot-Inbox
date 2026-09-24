@@ -18,6 +18,17 @@
 		A0010000000000000000000A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000000A /* Constants.swift */; };
 		A0010000000000000000000B /* AppLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000000B /* AppLogger.swift */; };
 		A0010000000000000000000C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000000C /* Assets.xcassets */; };
+		A0010000000000000000000D /* ScreenshotFolderAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0010000000000000000000F /* ScreenshotFolderAccess.swift */; };
+		A0010000000000000000000E /* ScreenshotFolderWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000010 /* ScreenshotFolderWatcher.swift */; };
+		A0010000000000000000000F /* ScreenshotItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000011 /* ScreenshotItem.swift */; };
+		A00100000000000000000010 /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000012 /* SQLiteDatabase.swift */; };
+		A00100000000000000000011 /* ScreenshotRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000013 /* ScreenshotRepository.swift */; };
+		A00100000000000000000012 /* ThumbnailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000014 /* ThumbnailService.swift */; };
+		A00100000000000000000013 /* ScreenshotImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000015 /* ScreenshotImporter.swift */; };
+		A00100000000000000000014 /* ScreenshotDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000016 /* ScreenshotDetailView.swift */; };
+		A00100000000000000000015 /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000017 /* OCRService.swift */; };
+		A00100000000000000000016 /* ScreenshotAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000018 /* ScreenshotAnalyzer.swift */; };
+		A00100000000000000000017 /* ScreenshotInboxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00100000000000000000019 /* ScreenshotInboxTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,33 +46,54 @@
 		B0010000000000000000000C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B0010000000000000000000D /* ScreenshotInbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScreenshotInbox.entitlements; sourceTree = "<group>"; };
 		B0010000000000000000000E /* ScreenshotInbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScreenshotInbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0010000000000000000000F /* ScreenshotFolderAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotFolderAccess.swift; sourceTree = "<group>"; };
+		B00100000000000000000010 /* ScreenshotFolderWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotFolderWatcher.swift; sourceTree = "<group>"; };
+		B00100000000000000000011 /* ScreenshotItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotItem.swift; sourceTree = "<group>"; };
+		B00100000000000000000012 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
+		B00100000000000000000013 /* ScreenshotRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotRepository.swift; sourceTree = "<group>"; };
+		B00100000000000000000014 /* ThumbnailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailService.swift; sourceTree = "<group>"; };
+		B00100000000000000000015 /* ScreenshotImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotImporter.swift; sourceTree = "<group>"; };
+		B00100000000000000000016 /* ScreenshotDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDetailView.swift; sourceTree = "<group>"; };
+		B00100000000000000000017 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
+		B00100000000000000000018 /* ScreenshotAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotAnalyzer.swift; sourceTree = "<group>"; };
+		B00100000000000000000019 /* ScreenshotInboxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotInboxTests.swift; sourceTree = "<group>"; };
+		B0010000000000000000001A /* ScreenshotInboxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScreenshotInboxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXContainerItemProxy section */
+		CA0100000000000000000001 = {isa = PBXContainerItemProxy; containerPortal = E00100000000000000000002; proxyType = 1; remoteGlobalIDString = E00100000000000000000001; remoteInfo = ScreenshotInbox; };
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C00100000000000000000001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		C00100000000000000000004 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D00100000000000000000001 = {isa = PBXGroup; children = (D00100000000000000000002 /* ScreenshotInbox */, D0010000000000000000000A /* Products */); sourceTree = "<group>"; };
-		D00100000000000000000002 /* ScreenshotInbox */ = {isa = PBXGroup; path = ScreenshotInbox; sourceTree = "<group>"; children = (D00100000000000000000003 /* App */, D00100000000000000000004 /* Models */, D00100000000000000000005 /* Views */, D00100000000000000000009 /* Utilities */, D00100000000000000000008 /* Resources */, B0010000000000000000000D /* ScreenshotInbox.entitlements */); };
+		D00100000000000000000001 = {isa = PBXGroup; children = (D00100000000000000000002 /* ScreenshotInbox */, D0010000000000000000000F /* ScreenshotInboxTests */, D0010000000000000000000A /* Products */); sourceTree = "<group>"; };
+		D00100000000000000000002 /* ScreenshotInbox */ = {isa = PBXGroup; path = ScreenshotInbox; sourceTree = "<group>"; children = (D00100000000000000000003 /* App */, D00100000000000000000004 /* Models */, D0010000000000000000000D /* Services */, D0010000000000000000000E /* Database */, D00100000000000000000005 /* Views */, D00100000000000000000009 /* Utilities */, D00100000000000000000008 /* Resources */, B0010000000000000000000D /* ScreenshotInbox.entitlements */); };
 		D00100000000000000000003 /* App */ = {isa = PBXGroup; path = App; sourceTree = "<group>"; children = (B00100000000000000000001, B00100000000000000000002); };
-		D00100000000000000000004 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (B00100000000000000000003); };
+		D00100000000000000000004 /* Models */ = {isa = PBXGroup; path = Models; sourceTree = "<group>"; children = (B00100000000000000000003, B00100000000000000000011); };
+		D0010000000000000000000D /* Services */ = {isa = PBXGroup; path = Services; sourceTree = "<group>"; children = (B0010000000000000000000F, B00100000000000000000010, B00100000000000000000014, B00100000000000000000015, B00100000000000000000017, B00100000000000000000018); };
+		D0010000000000000000000E /* Database */ = {isa = PBXGroup; path = Database; sourceTree = "<group>"; children = (B00100000000000000000012, B00100000000000000000013); };
 		D00100000000000000000005 /* Views */ = {isa = PBXGroup; path = Views; sourceTree = "<group>"; children = (D00100000000000000000006 /* Main */, D00100000000000000000007 /* Components */, D0010000000000000000000B /* MenuBar */, D0010000000000000000000C /* Settings */); };
-		D00100000000000000000006 /* Main */ = {isa = PBXGroup; path = Main; sourceTree = "<group>"; children = (B00100000000000000000004, B00100000000000000000005, B00100000000000000000006); };
+		D00100000000000000000006 /* Main */ = {isa = PBXGroup; path = Main; sourceTree = "<group>"; children = (B00100000000000000000004, B00100000000000000000005, B00100000000000000000006, B00100000000000000000016); };
 		D00100000000000000000007 /* Components */ = {isa = PBXGroup; path = Components; sourceTree = "<group>"; children = (B00100000000000000000007); };
 		D00100000000000000000008 /* Resources */ = {isa = PBXGroup; path = Resources; sourceTree = "<group>"; children = (B0010000000000000000000C); };
 		D00100000000000000000009 /* Utilities */ = {isa = PBXGroup; path = Utilities; sourceTree = "<group>"; children = (B0010000000000000000000A, B0010000000000000000000B); };
-		D0010000000000000000000A /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; children = (B0010000000000000000000E); };
+		D0010000000000000000000A /* Products */ = {isa = PBXGroup; name = Products; sourceTree = "<group>"; children = (B0010000000000000000000E, B0010000000000000000001A); };
+		D0010000000000000000000F /* ScreenshotInboxTests */ = {isa = PBXGroup; path = ScreenshotInboxTests; sourceTree = "<group>"; children = (B00100000000000000000019); };
 		D0010000000000000000000B /* MenuBar */ = {isa = PBXGroup; path = MenuBar; sourceTree = "<group>"; children = (B00100000000000000000008); };
 		D0010000000000000000000C /* Settings */ = {isa = PBXGroup; path = Settings; sourceTree = "<group>"; children = (B00100000000000000000009); };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		E00100000000000000000001 /* ScreenshotInbox */ = {isa = PBXNativeTarget; buildConfigurationList = F00100000000000000000002; buildPhases = (C00100000000000000000003 /* Sources */, C00100000000000000000001 /* Frameworks */, C00100000000000000000002 /* Resources */); buildRules = (); dependencies = (); name = ScreenshotInbox; productName = ScreenshotInbox; productReference = B0010000000000000000000E; productType = "com.apple.product-type.application"; };
+		E00100000000000000000003 /* ScreenshotInboxTests */ = {isa = PBXNativeTarget; buildConfigurationList = F00100000000000000000009; buildPhases = (C00100000000000000000005 /* Sources */, C00100000000000000000004 /* Frameworks */); buildRules = (); dependencies = (CA0300000000000000000001); name = ScreenshotInboxTests; productName = ScreenshotInboxTests; productReference = B0010000000000000000001A; productType = "com.apple.product-type.bundle.unit-test"; };
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		E00100000000000000000002 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = {E00100000000000000000001 = {CreatedOnToolsVersion = 16.0;};};}; buildConfigurationList = F00100000000000000000001; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = D00100000000000000000001; productRefGroup = D0010000000000000000000A; projectDirPath = ""; projectRoot = ""; targets = (E00100000000000000000001); };
+		E00100000000000000000002 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = {E00100000000000000000001 = {CreatedOnToolsVersion = 16.0;};};}; buildConfigurationList = F00100000000000000000001; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = D00100000000000000000001; productRefGroup = D0010000000000000000000A; projectDirPath = ""; projectRoot = ""; targets = (E00100000000000000000001, E00100000000000000000003); };
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -69,19 +101,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C00100000000000000000003 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A00100000000000000000001, A00100000000000000000002, A00100000000000000000003, A00100000000000000000004, A00100000000000000000005, A00100000000000000000006, A00100000000000000000007, A00100000000000000000008, A00100000000000000000009, A0010000000000000000000A, A0010000000000000000000B); runOnlyForDeploymentPostprocessing = 0; };
+		C00100000000000000000003 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A00100000000000000000001, A00100000000000000000002, A00100000000000000000003, A00100000000000000000004, A00100000000000000000005, A00100000000000000000006, A00100000000000000000007, A00100000000000000000008, A00100000000000000000009, A0010000000000000000000A, A0010000000000000000000B, A0010000000000000000000D, A0010000000000000000000E, A0010000000000000000000F, A00100000000000000000010, A00100000000000000000011, A00100000000000000000012, A00100000000000000000013, A00100000000000000000014, A00100000000000000000015, A00100000000000000000016); runOnlyForDeploymentPostprocessing = 0; };
+		C00100000000000000000005 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A00100000000000000000017); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CA0300000000000000000001 = {isa = PBXTargetDependency; target = E00100000000000000000001; targetProxy = CA0100000000000000000001; };
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F00100000000000000000003 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; GCC_C_LANGUAGE_STANDARD = gnu17; GCC_OPTIMIZATION_LEVEL = 0; ONLY_ACTIVE_ARCH = YES; SDKROOT = macosx; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; SWIFT_OPTIMIZATION_LEVEL = "-Onone";}; name = Debug; };
 		F00100000000000000000004 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; GCC_C_LANGUAGE_STANDARD = gnu17; SDKROOT = macosx; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O";}; name = Release; };
 		F00100000000000000000005 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor; CODE_SIGN_ENTITLEMENTS = ScreenshotInbox/ScreenshotInbox.entitlements; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; ENABLE_APP_SANDBOX = YES; ENABLE_HARDENED_RUNTIME = YES; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity"; INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Screenshot Inbox"; MACOSX_DEPLOYMENT_TARGET = 13.0; MARKETING_VERSION = 0.1.0; PRODUCT_BUNDLE_IDENTIFIER = com.screenshotinbox.app; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0;}; name = Debug; };
 		F00100000000000000000006 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor; CODE_SIGN_ENTITLEMENTS = ScreenshotInbox/ScreenshotInbox.entitlements; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; ENABLE_APP_SANDBOX = YES; ENABLE_HARDENED_RUNTIME = YES; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity"; INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Screenshot Inbox"; MACOSX_DEPLOYMENT_TARGET = 13.0; MARKETING_VERSION = 0.1.0; PRODUCT_BUNDLE_IDENTIFIER = com.screenshotinbox.app; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0;}; name = Release; };
+		F00100000000000000000007 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; MACOSX_DEPLOYMENT_TARGET = 13.0; PRODUCT_BUNDLE_IDENTIFIER = com.screenshotinbox.app.tests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScreenshotInbox.app/Contents/MacOS/ScreenshotInbox"; }; name = Debug; };
+		F00100000000000000000008 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; MACOSX_DEPLOYMENT_TARGET = 13.0; PRODUCT_BUNDLE_IDENTIFIER = com.screenshotinbox.app.tests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScreenshotInbox.app/Contents/MacOS/ScreenshotInbox"; }; name = Release; };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		F00100000000000000000001 = {isa = XCConfigurationList; buildConfigurations = (F00100000000000000000003, F00100000000000000000004); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 		F00100000000000000000002 = {isa = XCConfigurationList; buildConfigurations = (F00100000000000000000005, F00100000000000000000006); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F00100000000000000000009 = {isa = XCConfigurationList; buildConfigurations = (F00100000000000000000007, F00100000000000000000008); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 /* End XCConfigurationList section */
 	};
 	rootObject = E00100000000000000000002;

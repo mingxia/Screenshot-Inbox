@@ -4,10 +4,6 @@ struct SettingsView: View {
     @EnvironmentObject private var appState: AppState
     @State private var launchAtLogin = false
 
-    private var desktopPath: String {
-        FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first?.path ?? "~/Desktop"
-    }
-
     var body: some View {
         Form {
             Section("General") {
@@ -21,13 +17,13 @@ struct SettingsView: View {
             Section("Screenshots") {
                 LabeledContent("Screenshot folder") {
                     HStack {
-                        Text(desktopPath)
+                        Text(appState.folderAccess.displayPath)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                             .truncationMode(.middle)
-                        Button("Change…") {}
-                            .disabled(true)
-                            .help("Folder selection arrives with screenshot detection")
+                        Button(appState.folderAccess.folderURL == nil ? "Choose…" : "Change…") {
+                            appState.chooseScreenshotFolder()
+                        }
                     }
                 }
             }
