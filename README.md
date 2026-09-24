@@ -4,17 +4,17 @@
 
 Screenshot Inbox is a local-first, native macOS utility for the moment after a screenshot is taken. It will turn screenshots created with macOS (`⌘⇧3`, `⌘⇧4`, and `⌘⇧5`) into actionable inbox items without replacing the system capture experience.
 
-## Current milestone: Phase 1
+## Current milestone: Phase 4
 
-The current implementation is the application shell:
+The application now implements the local screenshot-to-text pipeline:
 
-- a native SwiftUI window with a three-column layout;
-- Inbox, All Screenshots, Favorites, and Archive navigation;
-- a calm Inbox Zero state;
-- a lightweight menu bar experience with inbox count and quick settings;
-- native Settings for general, screenshot, analysis, and privacy preferences.
+- sandbox-safe screenshot-folder selection and an event-driven folder watcher;
+- automatic SQLite import, persistent records, and thumbnail caching;
+- a database-backed Inbox that refreshes as screenshots arrive;
+- on-device Apple Vision OCR plus local URL extraction;
+- Copy Text, Open Link, and Copy Link actions in the detail panel.
 
-Screenshot discovery and importing intentionally begin in Phase 2. The UI currently uses an empty local application state and makes no network requests.
+The application makes no network requests and never modifies or relocates source screenshots.
 
 ## Requirements
 
@@ -55,11 +55,11 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for implementation notes and 
 
 ## Permissions
 
-Phase 1 requests no special permissions. It does not use Screen Recording or Accessibility APIs. Phase 2 will use a user-selected screenshot directory and persist access using a security-scoped bookmark where sandbox access requires it.
+The app uses a user-selected screenshot directory and persists access with a security-scoped bookmark. It does not request Screen Recording or Accessibility access.
 
 ## Local data
 
-Phase 1 stores preferences in the app's standard `UserDefaults` container. Future phases will store the SQLite database and thumbnail cache under:
+Folder bookmarks are stored in `UserDefaults`; the SQLite database and thumbnail cache are stored under:
 
 ```text
 ~/Library/Application Support/Screenshot Inbox/
@@ -69,10 +69,10 @@ Screenshots and extracted content will remain on the Mac. The project has no acc
 
 ## Known limitations
 
-- Screenshot folder selection is presented but disabled until Phase 2 adds sandbox-safe directory access.
-- The inbox is intentionally empty; watching, import, thumbnails, OCR, QR detection, actions, floating cards, and search are subsequent vertical slices.
-- Launch at login is displayed as an upcoming preference and remains disabled until it is connected to Service Management.
+- Screenshot source-app attribution is not available from ordinary image files and remains empty.
+- OCR quality depends on Apple Vision and the source image; failed OCR remains imported and is marked accordingly.
+- QR detection, classification, launch at login, floating cards, and managed libraries are not part of this milestone.
 
 ## Tests
 
-Phase 1 is a UI shell with no domain pipeline yet. Starting in Phase 2, automated tests will cover screenshot detection and duplicate prevention; later slices will cover importing, actions, URL extraction, status transitions, and database operations.
+The unit-test target covers duplicate prevention, SQLite insert/read, status persistence, URL extraction, and case-insensitive screenshot extension filtering.

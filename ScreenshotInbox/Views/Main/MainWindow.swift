@@ -9,9 +9,14 @@ struct MainWindow: View {
         } content: {
             InboxView(destination: appState.selection ?? .inbox)
         } detail: {
-            DetailPlaceholder()
+            if let item = appState.selectedScreenshot {
+                ScreenshotDetailView(item: item)
+            } else {
+                DetailPlaceholder()
+            }
         }
         .navigationSplitViewStyle(.balanced)
+        .task { appState.offerFolderSelectionIfNeeded() }
     }
 }
 
