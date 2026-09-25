@@ -32,8 +32,9 @@ actor ScreenshotImporter {
             id: UUID(), fileURL: url.standardizedFileURL, filename: url.lastPathComponent,
             createdAt: values.creationDate ?? Date(), importedAt: Date(), width: representation.pixelsWide,
             height: representation.pixelsHigh, fileSize: Int64(values.fileSize ?? 0), sourceApp: nil,
-            sourceBundleID: nil, ocrText: nil, detectedURLs: [], detectedQRPayloads: [], type: .screenshot,
-            confidence: 1, status: .imported, isFavorite: false, archivedAt: nil, deletedAt: nil, analysisVersion: 0
+            sourceBundleID: nil, ocrText: nil, detectedURLs: [], detectedQRPayloads: [], type: .unknown,
+            confidence: 0, analysisStatus: .pending, workflowStatus: .inbox, isFavorite: false,
+            archivedAt: nil, deletedAt: nil, analysisVersion: 0
         )
         guard try await repository.insert(item) else { return nil }
         do { try thumbnails.create(for: item) } catch {

@@ -16,10 +16,27 @@ struct MenuBarView: View {
 
             Divider()
 
-            Label("Recent screenshots will appear here", systemImage: "photo.on.rectangle")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, minHeight: 60)
+            if recentItems.isEmpty {
+                Label("No recent screenshots", systemImage: "photo.on.rectangle")
+                    .font(.subheadline).foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 60)
+            } else {
+                Text("Recent").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                ForEach(recentItems) { item in
+                    Button { appState.openScreenshot(item) } label: {
+                        HStack(spacing: 10) {
+                            if let image = NSImage(contentsOf: appState.thumbnailService.url(for: item.id)) {
+                                Image(nsImage: image).resizable().scaledToFill().frame(width: 38, height: 30).clipped()
+                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                            }
+                            let presentation = appState.presentationService.presentation(for: item)
+                            Label(presentation.typeName, systemImage: presentation.systemImage)
+                            Spacer()
+                            Text(item.createdAt, style: .relative).foregroundStyle(.secondary)
+                        }
+                    }.buttonStyle(.plain)
+                }
+            }
 
             Divider()
 
@@ -42,4 +59,6 @@ struct MenuBarView: View {
         .padding(16)
         .frame(width: 300)
     }
+
+    private var recentItems: [ScreenshotItem] { Array(appState.screenshots.prefix(3)) }
 }

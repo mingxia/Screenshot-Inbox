@@ -30,6 +30,8 @@ Analysis will run away from the main actor. OCR and barcode requests will be ind
 
 No OCR text or image content will be written to logs or telemetry.
 
+`BarcodeService` runs a local Vision QR-only request alongside OCR. Either request may fail independently; analysis is marked failed only when both requests fail. URL-shaped QR payloads are added to the same action-compatible URL collection while the original payload is retained. `ScreenshotClassifier` owns the deterministic priority and scoring (`QR → Error → Website → Text → Unknown`), including conservative compound error heuristics so a lone “warning” or “error” does not override otherwise useful content.
+
 ## Database design (Phase 3 and Phase 8)
 
 SQLite will store one canonical screenshot record. Status, creation time, type, and favorite state will be indexed. URL and QR payload arrays can initially be encoded as JSON. An FTS5 external-content index will cover filename, OCR text, detected URLs, source app, and type.
@@ -43,3 +45,9 @@ The app sandbox will grant user-selected read/write access to the screenshot dir
 ## Floating panel (Phase 7)
 
 The floating card will be an `NSPanel` configured as non-activating so it cannot steal focus. It will appear near the lower-right corner of the active screen, host a SwiftUI card, and dismiss after a short delay. Pointer hover will suspend the timeout. Its three primary actions will come from `ActionEngine`; the panel will not reproduce classification rules.
+
+The implemented panel uses both the `.nonactivatingPanel` style mask and a panel subclass that refuses key/main status. Its position is derived from the screen under the pointer and that screen's `visibleFrame`. A FIFO single-card queue prevents overlapping panels during rapid captures; queued copies of the same record are updated rather than duplicated. Dismissing a card never changes workflow state.
+
+## Schema migrations
+
+SQLite `PRAGMA user_version` is the migration authority. Schema v2 separates `analysis_status` from `workflow_status`; the v1 migration maps legacy analyzing/ready/failure states independently from archived/deleted workflow states without deleting the legacy data or moving screenshot files.

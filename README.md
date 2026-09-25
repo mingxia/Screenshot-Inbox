@@ -4,15 +4,17 @@
 
 Screenshot Inbox is a local-first, native macOS utility for the moment after a screenshot is taken. It will turn screenshots created with macOS (`⌘⇧3`, `⌘⇧4`, and `⌘⇧5`) into actionable inbox items without replacing the system capture experience.
 
-## Current milestone: Phase 4
+## Current milestone: Phase 7
 
-The application now implements the local screenshot-to-text pipeline:
+The application now implements the local capture-to-action workflow:
 
 - sandbox-safe screenshot-folder selection and an event-driven folder watcher;
 - automatic SQLite import, persistent records, and thumbnail caching;
 - a database-backed Inbox that refreshes as screenshots arrive;
 - on-device Apple Vision OCR plus local URL extraction;
-- Copy Text, Open Link, and Copy Link actions in the detail panel.
+- local QR detection and deterministic screenshot classification;
+- contextual actions, Archive, Favorites, safe Trash, and Inbox Zero;
+- a non-activating queued floating action card and recent menu-bar items.
 
 The application makes no network requests and never modifies or relocates source screenshots.
 
@@ -71,8 +73,9 @@ Screenshots and extracted content will remain on the Mac. The project has no acc
 
 - Screenshot source-app attribution is not available from ordinary image files and remains empty.
 - OCR quality depends on Apple Vision and the source image; failed OCR remains imported and is marked accordingly.
-- QR detection, classification, launch at login, floating cards, and managed libraries are not part of this milestone.
+- Candidate metadata differs across macOS versions and filesystems, so conservative detection can occasionally miss a screenshot.
+- Search, AI understanding, cloud sync, and managed libraries are intentionally outside this milestone.
 
 ## Tests
 
-The unit-test target covers duplicate prevention, SQLite insert/read, status persistence, URL extraction, and case-insensitive screenshot extension filtering.
+The unit-test target covers candidate and content classification, action generation, schema migration, workflow persistence, Trash failure ordering, duplicate prevention, URL extraction, and extension filtering.

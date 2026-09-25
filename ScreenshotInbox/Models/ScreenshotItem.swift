@@ -1,8 +1,9 @@
 import Foundation
 
 struct ScreenshotItem: Identifiable, Equatable, Sendable {
-    enum ItemType: String, Sendable { case screenshot, unknown }
-    enum Status: String, Sendable { case imported, analyzing, ready, analysisFailed, archived, deleted }
+    enum ItemType: String, Sendable { case unknown, website, text, qrCode, error }
+    enum AnalysisStatus: String, Sendable { case pending, analyzing, ready, failed }
+    enum WorkflowStatus: String, Sendable { case inbox, archived, deleted }
 
     let id: UUID
     let fileURL: URL
@@ -17,9 +18,10 @@ struct ScreenshotItem: Identifiable, Equatable, Sendable {
     var ocrText: String?
     var detectedURLs: [URL]
     var detectedQRPayloads: [String]
-    let type: ItemType
+    var type: ItemType
     var confidence: Double
-    var status: Status
+    var analysisStatus: AnalysisStatus
+    var workflowStatus: WorkflowStatus
     var isFavorite: Bool
     var archivedAt: Date?
     var deletedAt: Date?
