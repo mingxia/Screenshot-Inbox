@@ -3,6 +3,7 @@ import SwiftUI
 struct InboxView: View {
     let destination: SidebarDestination
     @EnvironmentObject private var appState: AppState
+    @State private var confirmsArchiveAll = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -15,7 +16,11 @@ struct InboxView: View {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 180), spacing: 16)], spacing: 16) {
                         ForEach(visibleItems) { item in
-                            ScreenshotGridItem(item: item, thumbnailURL: appState.thumbnailService.url(for: item.id))
+                            ScreenshotGridItem(
+                                item: item,
+                                thumbnailURL: appState.thumbnailService.url(for: item.id),
+                                presentation: appState.presentationService.presentation(for: item)
+                            )
                                 .onTapGesture { appState.selectedScreenshotID = item.id }
                         }
                     }
@@ -37,17 +42,26 @@ struct InboxView: View {
             }
             Spacer()
             if destination == .inbox {
-                Button("Mark All Done") {}
-                    .disabled(true)
-                    .help("There are no screenshots to archive")
+                Button("Mark All Done") { confirmsArchiveAll = true }
+                    .disabled(appState.inboxCount == 0)
+                    .help(appState.inboxCount == 0 ? "There are no screenshots to archive" : "Archive every screenshot in Inbox")
             }
         }
         .padding(24)
+        .confirmationDialog("Archive all screenshots in Inbox?", isPresented: $confirmsArchiveAll) {
+            Button("Archive All") { Task { await appState.archiveAllInbox() } }
+            Button("Cancel", role: .cancel) {}
+        }
     }
 
     private var subtitle: String {
         switch destination {
-        case .inbox: "No screenshots need your attention"
+        case .inbox:
+            switch appState.inboxCount {
+            case 0: "All screenshots handled."
+            case 1: "1 screenshot needs your attention"
+            default: "\(appState.inboxCount) screenshots need your attention"
+            }
         case .allScreenshots: "Every screenshot, in one place"
         case .favorites: "Screenshots you want to keep close"
         case .archive: "Screenshots you have handled"
@@ -56,10 +70,10 @@ struct InboxView: View {
 
     private var visibleItems: [ScreenshotItem] {
         switch destination {
-        case .inbox: appState.screenshots.filter { $0.status != .archived }
+        case .inbox: appState.screenshots.filter { $0.workflowStatus == .inbox }
         case .allScreenshots: appState.screenshots
         case .favorites: appState.screenshots.filter(\.isFavorite)
-        case .archive: appState.screenshots.filter { $0.status == .archived }
+        case .archive: appState.screenshots.filter { $0.workflowStatus == .archived }
         }
     }
 }
@@ -67,6 +81,7 @@ struct InboxView: View {
 private struct ScreenshotGridItem: View {
     let item: ScreenshotItem
     let thumbnailURL: URL
+    let presentation: ScreenshotPresentation
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -78,7 +93,12 @@ private struct ScreenshotGridItem: View {
                 }
             }
             .frame(height: 120).clipped().clipShape(RoundedRectangle(cornerRadius: 8))
-            Text(item.filename).font(.callout.weight(.medium)).lineLimit(1)
+            Label(presentation.typeName, systemImage: presentation.systemImage)
+                .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+            Text(presentation.displayTitle).font(.callout.weight(.medium)).lineLimit(1)
+            if let subtitle = presentation.displaySubtitle {
+                Text(subtitle).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+            }
             Text(item.createdAt, style: .relative).font(.caption).foregroundStyle(.secondary)
         }
         .padding(10).background(.background).clipShape(RoundedRectangle(cornerRadius: 12))
